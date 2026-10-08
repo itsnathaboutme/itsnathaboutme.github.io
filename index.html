@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<!--
+=====================================================================
+ PORTFOLIO + BLOG: Nathaniel Caramelo
+ One file, no build step. Works on GitHub Pages, Netlify, or any host.
+
+ FOLDER STRUCTURE (put these side by side)
+   /index.html                                       <- this file
+   /Nathaniel_Caramelo_Project_Assistant_CV.pdf      <- your CV (Download link)
+   /posts/                                           <- optional: one .html per blog post
+
+ HOW TO EDIT
+   1. HEAD ........ title, description (shows in Google results)
+   2. TOKENS ...... colors and fonts in one place (the :root block)
+   3. SECTIONS .... Hero > About > Experience > Projects > Skills > Blog > Contact
+   4. BLOG ........ add posts to the POSTS array in the script at the bottom
+   5. Search for "EDIT:" to find every spot to personalize.
+
+ HOW TO PUBLISH FREE (GitHub Pages)
+   Create a repo > upload these files > Settings > Pages > Deploy from branch (main).
+=====================================================================
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- 1. HEAD -->
+  <title>Nathaniel Caramelo | Project Assistant</title>
+  <meta name="description" content="Project Assistant with 7+ years at OffSec in training operations, exam operations, and spreadsheet tooling. Open to remote roles.">
+  <meta property="og:title" content="Nathaniel Caramelo | Project Assistant">
+  <meta property="og:description" content="Training operations, project coordination, and spreadsheet tooling. Open to remote roles.">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* 2. TOKENS */
+    :root {
+      --bg: #F2F5F7;
+      --panel: #FFFFFF;
+      --ink: #14213D;
+      --muted: #55627A;
+      --line: #CBD5DE;
+      --accent: #0F7B6C;
+      --accent-ink: #FFFFFF;
+      --mark: #FFE08A;
+      --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0E1624; --panel: #16213A; --ink: #E7ECF3; --muted: #9AA8BE;
+        --line: #2A3A58; --accent: #3CC2AC; --accent-ink: #0E1624; --mark: #5B4A12;
+      }
+    }
+
+    /* BASE */
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 4rem; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 400 1rem/1.65 var(--sans); }
+    a { color: var(--accent); }
+    a:focus-visible, summary:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+    h1, h2, h3 { line-height: 1.2; margin: 0; }
+    p { margin: 0 0 1rem; max-width: 68ch; }
+    .wrap { width: min(100% - 2.5rem, 62rem); margin-inline: auto; }
+    .block { padding: 3.5rem 0 0; }
+    .block > .wrap > h2 { font-size: 1.5rem; margin-bottom: 1.25rem; padding-bottom: .5rem; border-bottom: 2px solid var(--ink); }
+
+    /* NAV */
+    .nav { position: sticky; top: 0; z-index: 5; background: var(--bg); border-bottom: 1px solid var(--line); }
+    .nav .wrap { display: flex; flex-wrap: wrap; gap: .25rem 1.25rem; align-items: center; justify-content: space-between; padding: .7rem 0; }
+    .nav strong { font-weight: 700; }
+    .nav ul { display: flex; flex-wrap: wrap; gap: .25rem 1.1rem; list-style: none; margin: 0; padding: 0; }
+    .nav a { color: var(--ink); text-decoration: none; font-size: .95rem; }
+    .nav a:hover { text-decoration: underline; }
+
+    /* HERO: the quick-facts grid mirrors a spreadsheet, the tool you build */
+    .hero { padding-top: 3rem; }
+    .hero h1 { font-size: clamp(2.2rem, 6vw, 3.6rem); font-weight: 700; letter-spacing: -.02em; max-width: 18ch; }
+    .hero .lead { font-size: 1.15rem; color: var(--muted); margin-top: 1rem; }
+    .hero mark { background: var(--mark); color: inherit; padding: 0 .2em; }
+    .btns { display: flex; flex-wrap: wrap; gap: .75rem; margin: 1.5rem 0 2rem; }
+    .btn { display: inline-block; padding: .65rem 1.2rem; border: 2px solid var(--ink); border-radius: 4px; color: var(--ink); text-decoration: none; font-weight: 600; }
+    .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+    .btn:hover { filter: brightness(1.08); }
+    .sheet { display: grid; grid-template-columns: 11rem 1fr; border: 1px solid var(--line); background: var(--panel); font-family: var(--mono); font-size: .88rem; max-width: 46rem; }
+    .sheet > * { padding: .55rem .8rem; border-bottom: 1px solid var(--line); }
+    .sheet > :nth-last-child(-n+2) { border-bottom: 0; }
+    .sheet dt { background: var(--bg); color: var(--muted); border-right: 1px solid var(--line); margin: 0; }
+    .sheet dd { margin: 0; }
+    @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+    .sheet { animation: rise .5s ease-out both; }
+
+    /* EXPERIENCE: native <details>, so no JS needed */
+    details { background: var(--panel); border: 1px solid var(--line); border-radius: 4px; margin-bottom: .75rem; }
+    summary { cursor: pointer; padding: .9rem 1rem; display: flex; flex-wrap: wrap; justify-content: space-between; gap: .25rem 1rem; list-style-position: inside; }
+    summary b { font-weight: 600; }
+    summary span { color: var(--muted); font-size: .92rem; }
+    details ul { margin: 0; padding: 0 1.2rem 1rem 2.2rem; }
+    details li { margin-bottom: .4rem; max-width: 70ch; }
+
+    /* PROJECTS */
+    .projects { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); }
+    .project { background: var(--panel); border: 1px solid var(--line); border-top: 4px solid var(--accent); padding: 1.1rem 1.2rem; }
+    .project h3 { font-size: 1.1rem; margin-bottom: .5rem; }
+    .project p { font-size: .95rem; margin-bottom: .6rem; }
+    .project .tools { font-family: var(--mono); font-size: .8rem; color: var(--muted); margin: 0; }
+
+    /* SKILLS */
+    .skills { display: grid; gap: .6rem 1.5rem; grid-template-columns: 12rem 1fr; }
+    .skills dt { font-weight: 600; }
+    .skills dd { margin: 0; color: var(--muted); }
+
+    /* BLOG: cards are generated from the POSTS array */
+    .posts { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); }
+    .post { background: var(--panel); border: 1px solid var(--line); padding: 1.1rem 1.2rem; }
+    .post time { font-family: var(--mono); font-size: .8rem; color: var(--muted); }
+    .post h3 { font-size: 1.05rem; margin: .3rem 0 .5rem; }
+    .post p { font-size: .95rem; }
+
+    /* CONTACT + FOOTER */
+    .contact-list { list-style: none; padding: 0; margin: 0 0 1rem; }
+    .contact-list li { margin-bottom: .35rem; }
+    footer { margin-top: 4rem; padding: 1.5rem 0 2.5rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .9rem; }
+
+    /* RESPONSIVE */
+    @media (max-width: 40rem) {
+      .sheet { grid-template-columns: 1fr; }
+      .sheet dt { border-right: 0; border-bottom: 0; padding-bottom: 0; }
+      .sheet > :nth-last-child(2) { border-bottom: 0; }
+      .sheet dd { border-bottom: 1px solid var(--line); }
+      .skills { grid-template-columns: 1fr; gap: .1rem; }
+      .skills dd { margin-bottom: .7rem; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .sheet { animation: none; } }
+    @media print { .nav, .btns { display: none; } body { background: #fff; color: #000; } details { break-inside: avoid; } }
+  </style>
+</head>
+
+<body>
+  <!-- NAV -->
+  <header class="nav">
+    <div class="wrap">
+      <strong>Nathaniel Caramelo</strong>
+      <nav aria-label="Main">
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#blog">Blog</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- 3a. HERO -->
+    <section class="hero" aria-labelledby="top">
+      <div class="wrap">
+        <h1 id="top">I keep training and exam operations running on time.</h1>
+        <p class="lead">Project Assistant with 7+ years at OffSec. I coordinate live training, lead teams, and build the <mark>spreadsheet tools</mark> that replace manual tracking.</p>
+        <div class="btns">
+          <a class="btn primary" href="Nathaniel_Caramelo_Project_Assistant_CV.pdf" download>Download CV (PDF)</a>
+          <a class="btn" href="#contact">Contact me</a>
+        </div>
+        <!-- EDIT: change these facts as your situation changes -->
+        <dl class="sheet">
+          <dt>Role</dt><dd>Project Assistant, Administrative &amp; Training Operations Support</dd>
+          <dt>Experience</dt><dd>7+ years, OffSec (cybersecurity training and certification)</dd>
+          <dt>Led</dt><dd>Teams of 17 and 30</dd>
+          <dt>Tools</dt><dd>Jira, Confluence, Monday.com, Excel, Google Sheets, Apps Script</dd>
+          <dt>Location</dt><dd>Hilongos, Leyte, Philippines (PHT, UTC+8)</dd>
+          <dt>Availability</dt><dd>Open to remote roles, US/EU hour overlap</dd>
+        </dl>
+      </div>
+    </section>
+
+    <!-- 3b. ABOUT -->
+    <section class="block" id="about" aria-labelledby="about-h">
+      <div class="wrap">
+        <h2 id="about-h">About</h2>
+        <!-- EDIT: write this in your own voice -->
+        <p>I started in hospitality, moved into banking operations, then spent seven years at Offensive Security (OffSec), a global cybersecurity training and certification provider. I began as an exam proctor and grew into team lead and then Project Assistant.</p>
+        <p>My work sits between people and process: schedules, stakeholders, instructors, and the tools that keep everyone aligned. I am looking for a Project or Administrative Assistant role where that coordination matters.</p>
+      </div>
+    </section>
+
+    <!-- 3c. EXPERIENCE (add or remove <details> blocks) -->
+    <section class="block" id="experience" aria-labelledby="exp-h">
+      <div class="wrap">
+        <h2 id="exp-h">Experience</h2>
+
+        <details open>
+          <summary><b>Project Assistant, OffSec</b><span>March 2022 to January 2026</span></summary>
+          <ul>
+            <li>Led end-to-end delivery of live instructor-led training programs, aligning client expectations with internal resources.</li>
+            <li>Designed and built the Budget and Training Tracker from scratch; it became the team's standard tool.</li>
+            <li>Acted as secondary liaison between corporate stakeholders and technical instructors on scope, timelines, and resources.</li>
+            <li>Coordinated instructor travel logistics and resolved technical issues in real time for virtual and in-person sessions.</li>
+            <li>Kept tracking and documentation current in Jira, Monday.com, and Confluence with no critical backlog.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary><b>Exam Proctoring Team Lead, OffSec</b><span>May 2019 to March 2022</span></summary>
+          <ul>
+            <li>Led and mentored a team of 17 proctors in a regulated, high-stakes exam environment.</li>
+            <li>Scheduled and allocated the team to reach 100% coverage in peak periods with zero missed slots.</li>
+            <li>Standardized daily workflows and introduced a digital assignment-tracking system.</li>
+            <li>Spearheaded user acceptance testing (UAT) and product development of the Proctoring tool.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary><b>Exam Proctor, OffSec</b><span>November 2018 to May 2019</span></summary>
+          <ul>
+            <li>Monitored remote test-takers under strict anti-cheating protocols and handled secure materials with zero reported violations.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary><b>Team Leader, Gee Pacific Technology Services</b><span>February 2018 to October 2018</span></summary>
+          <ul>
+            <li>Led a team of 30 handling back-end banking transactions for an e-sports gaming company, managing scheduling and process updates.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary><b>Banquet Assistant Supervisor, Sarrosa International Hotel</b><span>September 2016 to September 2017</span></summary>
+          <ul>
+            <li>Supervised daily banquet operations as the front-line client contact and coordinated on-call staff scheduling.</li>
+          </ul>
+        </details>
+      </div>
+    </section>
+
+    <!-- 3d. PROJECTS -->
+    <!-- EDIT: add numbers (hours saved, users, projects) and screenshots once you can share them -->
+    <section class="block" id="projects" aria-labelledby="proj-h">
+      <div class="wrap">
+        <h2 id="proj-h">Projects</h2>
+        <div class="projects">
+          <article class="project">
+            <h3>Budget and Training Tracker</h3>
+            <p><b>Problem:</b> Live Training budgets and schedules needed one reliable view.<br>
+               <b>What I did:</b> Built the tracker from scratch.<br>
+               <b>Result:</b> It became the team's standard tool and made Live Training operations more efficient.</p>
+            <p class="tools">Spreadsheets, Apps Script</p>
+          </article>
+          <article class="project">
+            <h3>Proctor Assignment Tracking System</h3>
+            <p><b>Problem:</b> Overlapping assignments and unclear communication across 17 proctors.<br>
+               <b>What I did:</b> Introduced a digital tracking system.<br>
+               <b>Result:</b> Removed administrative overlap and made communication clearer.</p>
+            <p class="tools">Spreadsheets, scheduling</p>
+          </article>
+          <article class="project">
+            <h3>Proctoring Tool: UAT and Product Development</h3>
+            <p><b>Problem:</b> The proctoring tool needed testing from the people who use it.<br>
+               <b>What I did:</b> Led user acceptance testing and product development input.<br>
+               <b>Result:</b> A tool shaped by real proctoring workflows.</p>
+            <p class="tools">UAT, product feedback</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3e. SKILLS -->
+    <section class="block" id="skills" aria-labelledby="skills-h">
+      <div class="wrap">
+        <h2 id="skills-h">Skills</h2>
+        <dl class="skills">
+          <dt>Project and admin</dt><dd>Project coordination, scheduling, calendar management, stakeholder liaison, meeting coordination, records management, process improvement</dd>
+          <dt>Tools</dt><dd>Jira, Confluence, Monday.com, GitLab, Google Workspace, Microsoft Office</dd>
+          <dt>Spreadsheets and data</dt><dd>Advanced Excel and Google Sheets (VLOOKUP, Pivot Tables, Macros), Google Apps Script</dd>
+          <dt>Training operations</dt><dd>Virtual and in-person instructor-led training, instructor travel logistics, real-time troubleshooting</dd>
+          <dt>AI and automation</dt><dd>AI-assisted workflow automation with Claude, Gemini, and ChatGPT</dd>
+        </dl>
+      </div>
+    </section>
+
+    <!-- 3f. BLOG (cards come from the POSTS array in the script below) -->
+    <section class="block" id="blog" aria-labelledby="blog-h">
+      <div class="wrap">
+        <h2 id="blog-h">Blog</h2>
+        <p>Short write-ups on spreadsheet tools, project coordination, and working with AI.</p>
+        <div class="posts" id="posts" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- 3g. CONTACT -->
+    <section class="block" id="contact" aria-labelledby="contact-h">
+      <div class="wrap">
+        <h2 id="contact-h">Contact</h2>
+        <p>I am open to remote Project Assistant and Administrative Assistant roles. The fastest way to reach me is email.</p>
+        <!-- EDIT: add your LinkedIn URL -->
+        <ul class="contact-list">
+          <li>Email: <a href="mailto:n.caramelo@protonmail.com">n.caramelo@protonmail.com</a></li>
+          <li>Phone: <a href="tel:+639951071531">+63 995 107 1531</a></li>
+          <li>Location: Hilongos, Leyte, Philippines (PHT, UTC+8)</li>
+        </ul>
+        <a class="btn primary" href="mailto:n.caramelo@protonmail.com?subject=Opportunity%20for%20Nathaniel%20Caramelo">Send an email</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">&copy; <span id="year"></span> Nathaniel Caramelo</div>
+  </footer>
+
+  <script>
+    /* 4. BLOG POSTS
+       EDIT: add a new object at the TOP of the array for each post.
+       - date: "YYYY-MM-DD"
+       - url:  "posts/your-post.html" (create that file) or an external link (LinkedIn, Medium)
+       These two entries are starter drafts. Replace them with your own writing. */
+    const POSTS = [
+      { date: "2026-10-01", title: "How I built a Budget and Training Tracker", summary: "The problem it solved, how it is structured, and what I would change.", url: "#blog" },
+      { date: "2026-09-15", title: "Five spreadsheet formulas I use every week", summary: "Practical examples of lookups, pivots, and Apps Script shortcuts.", url: "#blog" }
+    ];
+
+    const box = document.getElementById("posts");
+    const fmt = new Intl.DateTimeFormat("en", { year: "numeric", month: "short", day: "numeric" });
+    box.innerHTML = POSTS.length
+      ? POSTS.slice().sort((a, b) => b.date.localeCompare(a.date)).map(p => `
+          <article class="post">
+            <time datetime="${p.date}">${fmt.format(new Date(p.date + "T00:00:00"))}</time>
+            <h3><a href="${p.url}">${p.title}</a></h3>
+            <p>${p.summary}</p>
+          </article>`).join("")
+      : "<p>No posts yet. Add one to the POSTS array in index.html.</p>";
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

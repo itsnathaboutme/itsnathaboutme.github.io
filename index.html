@@ -189,53 +189,215 @@
     </section>
 
     <!-- 3c. EXPERIENCE (add or remove <details> blocks) -->
-    <section class="block" id="experience" aria-labelledby="exp-h">
-      <div class="wrap">
-        <h2 id="exp-h">Experience</h2>
+   <style>
+    /* EXPERIENCE SECTION STYLES
+   Copy this into your site's stylesheet, or link it from your page.
+   Colors can be changed here without touching the HTML.
+*/
+.exp {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem;
+  font-family: inherit;
+  color: #13232e;
+}
 
-        <details open>
-          <summary><b>Project Assistant, OffSec</b><span>March 2022 to January 2026</span></summary>
-          <ul>
-            <li>Led end-to-end delivery of live instructor-led training programs, aligning client expectations with internal resources.</li>
-            <li>Designed and built the Budget and Training Tracker from scratch; it became the team's standard tool.</li>
-            <li>Acted as secondary liaison between corporate stakeholders and technical instructors on scope, timelines, and resources.</li>
-            <li>Coordinated instructor travel logistics and resolved technical issues in real time for virtual and in-person sessions.</li>
-            <li>Kept tracking and documentation current in Jira, Monday.com, and Confluence with no critical backlog.</li>
-          </ul>
-        </details>
+.exp-title {
+  margin: 0 0 1.5rem;
+  font-size: 2rem;
+  font-weight: 500;
+}
 
-        <details>
-          <summary><b>Exam Proctoring Team Lead, OffSec</b><span>May 2019 to March 2022</span></summary>
-          <ul>
-            <li>Led and mentored a team of 17 proctors in a regulated, high-stakes exam environment.</li>
-            <li>Scheduled and allocated the team to reach 100% coverage in peak periods with zero missed slots.</li>
-            <li>Standardized daily workflows and introduced a digital assignment-tracking system.</li>
-            <li>Spearheaded user acceptance testing (UAT) and product development of the Proctoring tool.</li>
-          </ul>
-        </details>
+.exp-employer {
+  background: #ffffff;
+  border: 1px solid #cdd8dc;
+  border-radius: 4px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.25rem;
+}
 
-        <details>
-          <summary><b>Exam Proctor, OffSec</b><span>November 2018 to May 2019</span></summary>
-          <ul>
-            <li>Monitored remote test-takers under strict anti-cheating protocols and handled secure materials with zero reported violations.</li>
-          </ul>
-        </details>
+/* Company name on the left, logo on the right */
+.exp-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.75rem;
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid #cdd8dc;
+}
 
-        <details>
-          <summary><b>Team Leader, Gee Pacific Technology Services</b><span>February 2018 to October 2018</span></summary>
-          <ul>
-            <li>Led a team of 30 handling back-end banking transactions for an e-sports gaming company, managing scheduling and process updates.</li>
-          </ul>
-        </details>
+.exp-name {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
 
-        <details>
-          <summary><b>Banquet Assistant Supervisor, Sarrosa International Hotel</b><span>September 2016 to September 2017</span></summary>
-          <ul>
-            <li>Supervised daily banquet operations as the front-line client contact and coordinated on-call staff scheduling.</li>
-          </ul>
-        </details>
+/* Each employer card is a size container, so the logo scales with the card's width.
+   Fallback values come first for browsers without container query units. */
+.exp-employer {
+  container-type: inline-size;
+}
+
+.exp-logo {
+  height: 44px;                      /* fallback */
+  height: clamp(32px, 12cqi, 60px);  /* grows and shrinks with the card */
+  width: auto;
+  max-width: 180px;                  /* fallback */
+  max-width: 40cqi;                  /* never wider than 40% of the card */
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+/* Dropdown roles */
+.exp-role {
+  border-top: 1px solid #e3eaed;
+}
+
+.exp-role:last-child {
+  border-bottom: 1px solid #e3eaed;
+}
+
+.exp-role > summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 0.75rem 0;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.exp-role > summary::-webkit-details-marker {
+  display: none;
+}
+
+.exp-role > summary::after {
+  content: "+";
+  font-weight: 400;
+  color: #55666f;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.exp-role[open] > summary::after {
+  content: "\2212";
+}
+
+.exp-role > summary:hover {
+  color: #1f5f6b;
+}
+
+.exp-body {
+  padding: 0 0 1rem;
+}
+
+.exp-plain {
+  padding-top: 0.25rem;
+}
+
+.exp-meta {
+  margin: 0 0 0.5rem;
+  font-size: 0.9rem;
+  color: #55666f;
+}
+
+.exp-body ul {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+.exp-body li {
+  margin-bottom: 0.35rem;
+  line-height: 1.5;
+}
+
+/* Phones: stack the logo under the name */
+@media (max-width: 560px) {
+  .exp-head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .exp-head {
+    flex-wrap: wrap;
+  }
+}
+
+   </style>
+    <section id="experience" class="exp">
+  <h2 class="exp-title">Experience</h2>
+
+  <!-- Employer 1: OffSec -->
+  <article class="exp-employer">
+    <header class="exp-head">
+      <h3 class="exp-name">OffSec</h3>
+      <img class="exp-logo" src="images/offsec.png" alt="OffSec logo">
+    </header>
+
+    <details class="exp-role">
+      <summary>Exam Proctor</summary>
+      <div class="exp-body">
+        <p class="exp-meta">[Dates]</p>
+        <ul>
+          <li>[Responsibility or achievement]</li>
+          <li>[Responsibility or achievement]</li>
+        </ul>
       </div>
-    </section>
+    </details>
+
+    <details class="exp-role">
+      <summary>Exam Proctor Team Lead</summary>
+      <div class="exp-body">
+        <p class="exp-meta">[Dates]</p>
+        <ul>
+          <li>[Responsibility or achievement]</li>
+          <li>[Responsibility or achievement]</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="exp-role">
+      <summary>Project Assistant</summary>
+      <div class="exp-body">
+        <p class="exp-meta">[Dates]</p>
+        <ul>
+          <li>[Responsibility or achievement]</li>
+          <li>[Responsibility or achievement]</li>
+        </ul>
+      </div>
+    </details>
+  </article>
+
+  <!-- Employer 2: Sarrosa International (keep your existing wording) -->
+  <article class="exp-employer">
+    <header class="exp-head">
+      <h3 class="exp-name">Sarrosa International</h3>
+      <img class="exp-logo" src="images/sarrosa-international.png" alt="Sarrosa International logo">
+    </header>
+    <div class="exp-body exp-plain">
+      <p class="exp-meta">[Role title] &middot; [Dates]</p>
+      <ul>
+        <li>[Keep your existing bullet points here]</li>
+      </ul>
+    </div>
+  </article>
+
+  <!-- Employer 3: GEE Pacific (keep your existing wording) -->
+  <article class="exp-employer">
+    <header class="exp-head">
+      <h3 class="exp-name">GEE Pacific</h3>
+      <img class="exp-logo" src="images/gee-pacific.png" alt="GEE Pacific logo">
+    </header>
+    <div class="exp-body exp-plain">
+      <p class="exp-meta">[Role title] &middot; [Dates]</p>
+      <ul>
+        <li>[Keep your existing bullet points here]</li>
+      </ul>
+    </div>
+  </article>
+</section>
+
 
     <!-- 3d. PROJECTS -->
     <!-- EDIT: add numbers (hours saved, users, projects) and screenshots once you can share them -->
